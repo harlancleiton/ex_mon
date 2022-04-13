@@ -5,8 +5,10 @@ defmodule ExMonWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", ExMonWeb do
+  scope "/", ExMonWeb do
     pipe_through :api
+
+    resources "/trainers", TrainersController, only: [:create, :show, :update, :delete]
   end
 
   # Enables LiveDashboard only for development
