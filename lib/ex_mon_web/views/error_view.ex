@@ -24,6 +24,10 @@ defmodule ExMonWeb.ErrorView do
     %{errors: errors}
   end
 
+  def render("error.json", %{error: {:error, error}}) do
+    %{error: error}
+  end
+
   defp translate_errors(%Changeset{} = changeset) do
     traverse_errors(changeset, fn {msg, opts} ->
       Regex.replace(~r"%{(\w+)}", msg, fn _, key ->
