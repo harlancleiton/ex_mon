@@ -10,6 +10,9 @@ import Config
 config :ex_mon,
   ecto_repos: [ExMon.Repo]
 
+config :ex_mon, ExMon.Repo, migration_primary_key: [type: :binary_id]
+config :ex_mon, ExMon.Repo, migration_foreign_key: [type: :binary_id]
+
 # Configures the endpoint
 config :ex_mon, ExMonWeb.Endpoint,
   url: [host: "localhost"],
