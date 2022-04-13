@@ -21,5 +21,14 @@ defmodule ExMon.Trainers.Trainer do
     |> validate_required(@required_params)
     |> validate_length(:password, min: @min_password_length)
     |> unique_constraint(@unique_indexes)
+    |> put_pass_hash()
   end
+
+  defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
+    hash_password = Argon2.hash_pwd_salt(password)
+    IO.inspect(hash_password, label: "hash_password")
+    change(changeset, %{password: hash_password})
+  end
+
+  defp put_pass_hash(changeset), do: changeset
 end
