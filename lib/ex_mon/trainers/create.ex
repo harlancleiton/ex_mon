@@ -5,9 +5,9 @@ defmodule ExMon.Trainers.Create do
   def call(params) do
     params
     |> Trainer.build()
-    |> do_create()
+    |> handle_build()
   end
 
-  defp do_create({:ok, struct}), do: Repo.insert(struct)
-  defp do_create({:error, _changeset} = error), do: error
+  defp handle_build({:ok, struct}), do: Repo.insert(struct)
+  defp handle_build({:error, _changeset} = error), do: error
 end
