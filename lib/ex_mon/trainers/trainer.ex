@@ -15,6 +15,12 @@ defmodule ExMon.Trainers.Trainer do
   @required_params [:name, :email, :password]
   @unique_indexes [:name, :email, :password]
 
+  def build(params) do
+    params
+    |> changeset()
+    |> apply_action(:build)
+  end
+
   def changeset(params) do
     %__MODULE__{}
     |> cast(params, @required_params)
