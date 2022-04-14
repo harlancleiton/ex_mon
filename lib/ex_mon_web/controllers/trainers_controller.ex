@@ -1,7 +1,7 @@
 defmodule ExMonWeb.TrainersController do
   use ExMonWeb, :controller
 
-  alias ExMon.Trainers.{Create, DeleteById, GetById}
+  alias ExMon.Trainers.{Create, DeleteById, GetById, Update}
 
   action_fallback ExMonWeb.FallbackController
 
@@ -27,6 +27,15 @@ defmodule ExMonWeb.TrainersController do
     with {:ok, trainer} <- GetById.call(id) do
       put_status(conn, :ok)
       |> render(:show, trainer: trainer)
+    else
+      {:error, _error} = error -> error
+    end
+  end
+
+  def update(conn, params) do
+    with {:ok, _trainer} <- Update.call(params) do
+      put_status(conn, :no_content)
+      |> text("")
     else
       {:error, _error} = error -> error
     end

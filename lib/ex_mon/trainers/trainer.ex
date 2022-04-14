@@ -21,8 +21,11 @@ defmodule ExMon.Trainers.Trainer do
     |> apply_action(:build)
   end
 
-  def changeset(params) do
-    %__MODULE__{}
+  def changeset(params), do: do_changeset(%__MODULE__{}, params)
+  def changeset(trainer, params), do: do_changeset(trainer, params)
+
+  defp do_changeset(trainer, params) do
+    trainer
     |> cast(params, @required_params)
     |> validate_required(@required_params)
     |> validate_length(:password, min: @min_password_length)
@@ -32,7 +35,6 @@ defmodule ExMon.Trainers.Trainer do
 
   defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
     hash_password = Argon2.hash_pwd_salt(password)
-    IO.inspect(hash_password, label: "hash_password")
     change(changeset, %{password: hash_password})
   end
 
